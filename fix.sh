@@ -55,6 +55,7 @@ fixup_all () {
     FILES=$(find "/opt/local/lib" -type l -maxdepth 1 -name "*.dylib")
     for f in $FILES
     do
+        echo "cp -a $f libs/"
         cp -a $f libs/
     done
     

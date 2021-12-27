@@ -34,4 +34,5 @@ fixup_all () {
         fixup $f
     done
 }
+pwd
 fixup_all

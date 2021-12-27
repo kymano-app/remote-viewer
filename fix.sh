@@ -59,8 +59,8 @@ fixup_all () {
         BASEFILENAME=${BASE%.*}
         LIBNAME=${BASEFILENAME#lib*}
         NEWNAME="libs/$LIBNAME.dylib"
-        echo "cp -a $f libs/$NEWNAME"
-        cp -a $f libs/$NEWNAME
+        echo "cp -a $f $NEWNAME"
+        cp -a $f $NEWNAME
     done
 }
 fixup_all

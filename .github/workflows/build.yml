@@ -53,7 +53,7 @@ jobs:
         if: steps.cache-sysroot.outputs.cache-hit != 'true'
         run: |
           
-          #./virt-viewer-v11.0/build/src/remote-viewer --version
+          ./virt-viewer-v11.0/build/src/remote-viewer --version
           tar cf sysroot.tgz virt-viewer-v11.0/build/libs virt-viewer-v11.0/build/src
 
       - name: Upload Sysroot

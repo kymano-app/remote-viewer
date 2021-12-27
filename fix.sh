@@ -5,7 +5,7 @@ fixup () {
     BASE=$(basename "$FILE")
     BASEFILENAME=${BASE%.*}
     LIBNAME=${BASEFILENAME#lib*}
-    NEWNAME="libs/$LIBNAME.dylib"
+    NEWNAME="libs/lib$LIBNAME.dylib"
     echo "cp $FILE $NEWNAME"
     cp "$FILE" "$NEWNAME"
     echo "install_name_tool -id @executable_path/../$NEWNAME $NEWNAME"
@@ -20,7 +20,7 @@ fixup () {
 
         echo "$dir == /opt/local/lib"
         if [ "$dir" == "/opt/local/lib" ]; then
-            newname="@executable_path/../libs/$libname.dylib"
+            newname="@executable_path/../libs/lib$libname.dylib"
             echo "install_name_tool -change $g $newname $NEWNAME"
             install_name_tool -change "$g" "$newname" "$NEWNAME"
         fi
@@ -39,7 +39,7 @@ fixup_all () {
 
         echo "$dir == /opt/local/lib"
         if [ "$dir" == "/opt/local/lib" ]; then
-            newname="@executable_path/../libs/$libname.dylib"
+            newname="@executable_path/../libs/lib$libname.dylib"
             echo "install_name_tool -change $g $newname $NEWNAME"
             install_name_tool -change "$g" "$newname" "$NEWNAME"
         fi
@@ -58,7 +58,7 @@ fixup_all () {
         BASE=$(basename "$f")
         BASEFILENAME=${BASE%.*}
         LIBNAME=${BASEFILENAME#lib*}
-        NEWNAME="libs/$LIBNAME.dylib"
+        NEWNAME="libs/lib$LIBNAME.dylib"
         echo "cp -a $f $NEWNAME"
         cp -a $f $NEWNAME
     done

@@ -55,9 +55,12 @@ fixup_all () {
     FILES=$(find "/opt/local/lib" -type l -maxdepth 1 -name "*.dylib")
     for f in $FILES
     do
-        echo "cp -a $f libs/"
+        BASE=$(basename "$f")
+        BASEFILENAME=${BASE%.*}
+        LIBNAME=${BASEFILENAME#lib*}
+        NEWNAME="libs/$LIBNAME.dylib"
+        echo "cp -a $f libs/$NEWNAME"
         cp -a $f libs/
     done
-    
 }
 fixup_all

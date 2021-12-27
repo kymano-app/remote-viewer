@@ -20,8 +20,8 @@ fixup () {
         echo "$dir == /opt/local/lib"
         if [ "$dir" == "/opt/local/lib" ]; then
             newname="@executable_path/../libs/$libname.dylib"
-            echo "install_name_tool -change $g $newname $NEWFILE"
-            install_name_tool -change "$g" "$newname" "$NEWFILE"
+            echo "install_name_tool -change $g $newname libs/$BASE"
+            install_name_tool -change "$g" "$newname" "libs/$BASE"
         fi
     done
 }

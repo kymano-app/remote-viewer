@@ -31,7 +31,7 @@ jobs:
         run: |
           export PATH="/opt/local/bin:$PATH" 
 
-          sudo bin/port install glib2-devel gtk3 meson
+          sudo port install glib2-devel gtk3 meson
           wget https://gitlab.com/virt-viewer/virt-viewer/-/archive/v11.0/virt-viewer-v11.0.tar.gz
           tar -xzf virt-viewer-v11.0.tar.gz
           cd virt-viewer-v11.0

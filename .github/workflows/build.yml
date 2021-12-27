@@ -53,7 +53,7 @@ jobs:
         run: |
           pwd
           ls -lt
-          tar cf sysroot.tgz libs src
+          tar cf sysroot.tgz virt-viewer-v11.0/build/libs virt-viewer-v11.0/build/src
 
       - name: Upload Sysroot
         if: steps.cache-sysroot.outputs.cache-hit != 'true'

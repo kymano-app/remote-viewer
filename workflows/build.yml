@@ -1,0 +1,32 @@
+name: Build
+on:
+  push:
+    branches:
+      - "master"
+  pull_request:
+  release:
+    types: [created]
+
+jobs:
+  build:
+    name: Build
+    runs-on: macos-11
+    strategy:
+      matrix:
+        arch: [x86_64]
+        platform: [macos]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          submodules: recursive
+
+      - name: Install dependencies
+        run: |
+          wget https://gitlab.com/virt-viewer/virt-viewer/-/archive/v11.0/virt-viewer-v11.0.tar.gz
+          tar -xzf virt-viewer-v11.0.tar.gz
+          cd virt-viewer-v11.0
+          meson build
+          cd build
+          meson install
+          

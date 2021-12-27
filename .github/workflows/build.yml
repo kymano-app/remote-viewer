@@ -10,7 +10,7 @@ on:
 jobs:
   build:
     name: Build
-    runs-on: macos-latest
+    runs-on: macos-12
     strategy:
       matrix:
         arch: [x86_64]
@@ -23,7 +23,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          brew install meson
+          brew install meson glib
           wget https://gitlab.com/virt-viewer/virt-viewer/-/archive/v11.0/virt-viewer-v11.0.tar.gz
           tar -xzf virt-viewer-v11.0.tar.gz
           cd virt-viewer-v11.0

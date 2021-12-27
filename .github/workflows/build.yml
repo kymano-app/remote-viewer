@@ -44,7 +44,7 @@ jobs:
           meson build
           cd build
           meson install
-          ./fix.sh
+          ../fix.sh
 
       - name: Compress Sysroot
         if: steps.cache-sysroot.outputs.cache-hit != 'true'

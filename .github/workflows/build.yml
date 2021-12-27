@@ -33,7 +33,7 @@ jobs:
           wget https://gitlab.com/virt-viewer/virt-viewer/-/archive/v11.0/virt-viewer-v11.0.tar.gz
           tar -xzf virt-viewer-v11.0.tar.gz
           cd virt-viewer-v11.0
-          /opt/local/bin/port build
+          /opt/local/bin/meson build
           cd build
-          /opt/local/bin/port install
+          /opt/local/bin/meson install
           

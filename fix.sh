@@ -51,6 +51,12 @@ fixup_all () {
     do
         fixup $f
     done
+    
+    FILES=$(find "/opt/local/lib" -type l -maxdepth 1 -name "*.dylib")
+    for f in $FILES
+    do
+        cp -a $f libs/
+    done
+    
 }
-pwd
 fixup_all

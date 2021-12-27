@@ -29,12 +29,14 @@ jobs:
 
       - name: Install dependencies
         run: |
-          sudo /opt/local/bin/port install glib2-devel gtk3 meson
+          export PATH="/opt/local/bin:$PATH" 
+
+          sudo bin/port install glib2-devel gtk3 meson
           wget https://gitlab.com/virt-viewer/virt-viewer/-/archive/v11.0/virt-viewer-v11.0.tar.gz
           tar -xzf virt-viewer-v11.0.tar.gz
           cd virt-viewer-v11.0
           export PKG_CONFIG_PATH="/opt/local/lib/pkgconfig:/opt/local/share/pkgconfig:/usr/local/lib/pkgconfig:/usr/local/share/pkgconfig"
-          /opt/local/bin/meson build
+          meson build
           cd build
-          /opt/local/bin/meson install
+          meson install
           

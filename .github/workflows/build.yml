@@ -23,8 +23,6 @@ jobs:
 
       - name: before
         run: |
-          ls -lt /opt/local
-          du -sh /opt/local
           ls -lt /usr/local
           du -sh /usr/local
 

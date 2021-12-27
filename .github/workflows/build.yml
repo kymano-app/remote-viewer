@@ -21,9 +21,15 @@ jobs:
         with:
           submodules: recursive
 
+      - name: Macports 0
+        if: steps.cache-sysroot.outputs.cache-hit != 'true'
+        run: |
+           wget https://github.com/macports/macports-base/releases/download/v2.7.1/MacPorts-2.7.1-11-BigSur.pkg
+           sudo installer -pkg ./MacPorts-2.7.1-11-BigSur.pkg -target /
+
       - name: Install dependencies
         run: |
-          brew install meson glib
+          sudo port install gtk3
           wget https://gitlab.com/virt-viewer/virt-viewer/-/archive/v11.0/virt-viewer-v11.0.tar.gz
           tar -xzf virt-viewer-v11.0.tar.gz
           cd virt-viewer-v11.0

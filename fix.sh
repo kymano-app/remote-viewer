@@ -1,5 +1,21 @@
 #!/bin/sh
 
+fix() {
+   FILE=$1
+   NEWNAME=$2
+   base=$(basename "$FILE")
+   basefilename=${base%.*}
+   libname=${basefilename#lib*}
+   dir=$(dirname "$FILE")
+
+   echo "$dir == /opt/local/lib"
+   if [ "$dir" == "/opt/local/lib" ]; then
+       newname="@executable_path/../libs/lib$libname.dylib"
+       echo "install_name_tool -change $g $newname $NEWNAME"
+       install_name_tool -change "$FILE" "$newname" "$NEWNAME"
+   fi
+}
+
 fixup () {
     FILE=$1
     BASE=$(basename "$FILE")
@@ -11,38 +27,18 @@ fixup () {
     echo "install_name_tool -id @executable_path/../$NEWNAME $NEWNAME"
     install_name_tool -id "@executable_path/../$NEWNAME" "$NEWNAME"
     LIST=$(otool -L "$FILE" | tail -n +2 | cut -d ' ' -f 1 | awk '{$1=$1};1')
-    for g in $LIST
+    for FILE in $LIST
     do
-        base=$(basename "$g")
-        basefilename=${base%.*}
-        libname=${basefilename#lib*}
-        dir=$(dirname "$g")
-
-        echo "$dir == /opt/local/lib"
-        if [ "$dir" == "/opt/local/lib" ]; then
-            newname="@executable_path/../libs/lib$libname.dylib"
-            echo "install_name_tool -change $g $newname $NEWNAME"
-            install_name_tool -change "$g" "$newname" "$NEWNAME"
-        fi
+        fix $FILE $NEWNAME
     done
 }
 
 fixup_all () {
     LIST=$(otool -L src/remote-viewer| tail -n +2 | cut -d ' ' -f 1 | awk '{$1=$1};1')
     NEWNAME="src/remote-viewer"
-    for g in $LIST
+    for FILE in $LIST
     do
-        base=$(basename "$g")
-        basefilename=${base%.*}
-        libname=${basefilename#lib*}
-        dir=$(dirname "$g")
-
-        echo "$dir == /opt/local/lib"
-        if [ "$dir" == "/opt/local/lib" ]; then
-            newname="@executable_path/../libs/lib$libname.dylib"
-            echo "install_name_tool -change $g $newname $NEWNAME"
-            install_name_tool -change "$g" "$newname" "$NEWNAME"
-        fi
+        fix $FILE $NEWNAME
     done
 
     mkdir "libs"

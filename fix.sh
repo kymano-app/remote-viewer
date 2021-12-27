@@ -21,12 +21,13 @@ fixup () {
         if [ "$dir" == "/opt/local/lib" ]; then
             newname="@executable_path/../libs/$libname.dylib"
             echo "install_name_tool -change $g $newname $NEWFILE"
-            nstall_name_tool -change "$g" "$newname" "$NEWFILE"
+            install_name_tool -change "$g" "$newname" "$NEWFILE"
         fi
     done
 }
 
 fixup_all () {
+    fixup "src/remote-viewer"
     mkdir "libs"
     FILES=$(find "/opt/local/lib" -type f -maxdepth 1 -name "*.dylib")
     for f in $FILES

@@ -21,6 +21,13 @@ jobs:
         with:
           submodules: recursive
 
+      - name: before
+        run: |
+          ls -lt /opt/local
+          du -sh /opt/local
+          ls -lt /usr/local
+          du -sh /usr/local
+
       - name: Macports 0
         if: steps.cache-sysroot.outputs.cache-hit != 'true'
         run: |
@@ -39,4 +46,10 @@ jobs:
           meson build
           cd build
           meson install
-          
+
+      - name: after
+        run: |
+          ls -lt /opt/local
+          du -sh /opt/local
+          ls -lt /usr/local
+          du -sh /usr/local

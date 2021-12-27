@@ -45,6 +45,7 @@ jobs:
           cd build
           meson install
           pwd
+          chmod +x ../../fix.sh
           ../../fix.sh
 
       - name: Compress Sysroot

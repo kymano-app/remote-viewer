@@ -5,11 +5,11 @@ fixup () {
     BASE=$(basename "$FILE")
     BASEFILENAME=${BASE%.*}
     LIBNAME=${BASEFILENAME#lib*}
-    NEWNAME = "libs/$BASE";
-    echo "cp $FILE libs/$BASE"
-    cp "$FILE" "libs/$BASE"
-    echo "install_name_tool -id @executable_path/../libs/$LIBNAME.dylib libs/$LIBNAME.dylib"
-    install_name_tool -id "@executable_path/../libs/$LIBNAME.dylib" "libs/$LIBNAME.dylib"
+    NEWNAME="libs/$LIBNAME.dylib"
+    echo "cp $FILE $NEWNAME"
+    cp "$FILE" "$NEWNAME"
+    echo "install_name_tool -id @executable_path/../$NEWNAME $NEWNAME"
+    install_name_tool -id "@executable_path/../$NEWNAME" "$NEWNAME"
     LIST=$(otool -L "$FILE" | tail -n +2 | cut -d ' ' -f 1 | awk '{$1=$1};1')
     for g in $LIST
     do

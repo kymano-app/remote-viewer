@@ -23,9 +23,9 @@ jobs:
 
       - name: before
         run: |
-          ls -lt /usr/local
-          du -sh /usr/local
-
+          ls -lt /usr/local/lib
+          sudo du -sh /usr/local
+          
       - name: Macports 0
         if: steps.cache-sysroot.outputs.cache-hit != 'true'
         run: |
@@ -47,7 +47,7 @@ jobs:
 
       - name: after
         run: |
-          ls -lt /opt/local
+          ls -lt /opt/local/lib
           du -sh /opt/local
-          ls -lt /usr/local
-          du -sh /usr/local
+          ls -lt /usr/local/lib
+          sudo du -sh /usr/local

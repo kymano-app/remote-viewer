@@ -51,14 +51,14 @@ jobs:
         if: steps.cache-remote-viewer.outputs.cache-hit != 'true'
         run: |
           ./virt-viewer-v11.0/build/src/remote-viewer --version
-          tar cf remote-viewer-${{ matrix.arch }}.tgz virt-viewer-v11.0/build/libs virt-viewer-v11.0/build/src
+          tar cf remote-viewer-${{ matrix.platform }}-${{ matrix.arch }}.tgz virt-viewer-v11.0/build/libs virt-viewer-v11.0/build/src
 
       - name: Upload remote-viewer
         if: steps.cache-sysroot.outputs.cache-hit != 'true'
         uses: actions/upload-artifact@v2
         with:
           name: remote-viewer-${{ matrix.platform }}-${{ matrix.arch }}
-          path: remote-viewer-${{ matrix.arch }}.tgz
+          path: remote-viewer-${{ matrix.platform }}-${{ matrix.arch }}.tgz
 
   build-lnux:
     name: Build
@@ -96,16 +96,16 @@ jobs:
           tar -xzf patchelf-0.14.3-$(uname -m).tar.gz
           cp bin/patchelf /usr/bin/
           bash /v/fix_linux.sh ${{ matrix.arch }} && \
-          tar cf remote-viewer-${{ matrix.arch }}.tgz libs src/remote-viewer"
+          tar cf remote-viewer-${{ matrix.platform }}-${{ matrix.arch }}.tgz libs src/remote-viewer"
 
-          sudo docker cp remote_viewer:/virt-viewer-v11.0/build/remote-viewer-${{ matrix.arch }}.tgz .
+          sudo docker cp remote_viewer:/virt-viewer-v11.0/build/remote-viewer-${{ matrix.platform }}-${{ matrix.arch }}.tgz .
           ls -l ./
       - name: Upload remote-viewer
         if: steps.cache-remote-viewer.outputs.cache-hit != 'true'
         uses: actions/upload-artifact@v2
         with:
           name: remote-viewer-${{ matrix.platform }}-${{ matrix.arch }}
-          path: remote-viewer-${{ matrix.arch }}.tgz
+          path: remote-viewer-${{ matrix.platform }}-${{ matrix.arch }}.tgz
 
       - name: Release
         uses: softprops/action-gh-release@v1

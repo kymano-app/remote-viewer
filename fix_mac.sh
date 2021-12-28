@@ -41,13 +41,13 @@ fixup_all () {
     done
 
     mkdir "libs"
-    FILES=$(find "/opt/local/lib" -type f -maxdepth 1 -name "*.dylib")
+    FILES=$(find "/opt/local/lib" -type f -name "*.dylib")
     for f in $FILES
     do
         fixup $f
     done
     
-    FILES=$(find "/opt/local/lib" -type l -maxdepth 1 -name "*.dylib")
+    FILES=$(find "/opt/local/lib" -type l -name "*.dylib")
     for f in $FILES
     do
         BASE=$(basename "$f")

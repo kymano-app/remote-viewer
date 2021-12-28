@@ -108,5 +108,5 @@ jobs:
         if: steps.cache-sysroot.outputs.cache-hit != 'true'
         uses: actions/upload-artifact@v2
         with:
-          name: Sysroot
+          name: Sysroot-${{ matrix.platform }}-${{ matrix.arch }}
           path: remote-viewer-${{ matrix.arch }}.tgz

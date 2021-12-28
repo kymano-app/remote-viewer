@@ -100,9 +100,9 @@ jobs:
           tar -xzf patchelf-0.14.3-$(uname -m).tar.gz
           cp bin/patchelf /usr/bin/
           bash /v/fix_linux.sh ${{ matrix.arch }} && \
-          tar cf remote-viewer.tgz libs src/remote-viewer"
+          tar cf remote-viewer-${{ matrix.arch }}.tgz libs src/remote-viewer"
 
-          sudo docker cp remote_viewer:/virt-viewer-v11.0/build/remote-viewer.tgz .
+          sudo docker cp remote_viewer:/virt-viewer-v11.0/build/remote-viewer-${{ matrix.arch }}.tgz .
           ls -l ./
       - name: Upload Sysroot
         if: steps.cache-sysroot.outputs.cache-hit != 'true'

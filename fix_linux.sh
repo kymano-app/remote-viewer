@@ -16,14 +16,14 @@ fixup () {
     echo "cp $FILE $NEWNAME"
     cp "$FILE" "$NEWNAME"
     LIST=$(patchelf --print-needed $FILE | grep lib)
-    for FILE in $LIST
-    do
-        fix $FILE $NEWNAME
-    done
+    # for FILE in $LIST
+    # do
+    #     fix $FILE $NEWNAME
+    # done
 }
 
 fixup_all () {
-    LIST=$(patchelf --print-needed src/remote-viewer | grep lib)
+    LIST=$(patchelf --print-needed src/remote-viewer | grep lib | grep -v "libc.so" | grep "libxml2")
     NEWNAME="src/remote-viewer"
     for FILE in $LIST
     do

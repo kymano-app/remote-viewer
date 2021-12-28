@@ -10,7 +10,6 @@ on:
 jobs:
   build:
     name: Build
-    if: false
     runs-on: macos-11
     strategy:
       matrix:
@@ -50,19 +49,18 @@ jobs:
           chmod +x ../../fix.sh
           ../../fix.sh
 
-      - name: Compress Sysroot
-        if: steps.cache-sysroot.outputs.cache-hit != 'true'
+      - name: Compress remote-viewer
+        if: steps.cache-remote-viewer.outputs.cache-hit != 'true'
         run: |
-          
           ./virt-viewer-v11.0/build/src/remote-viewer --version
-          tar cf sysroot.tgz virt-viewer-v11.0/build/libs virt-viewer-v11.0/build/src
+          tar cf remote-viewer-${{ matrix.arch }}.tgz virt-viewer-v11.0/build/libs virt-viewer-v11.0/build/src
 
-      - name: Upload Sysroot
+      - name: Upload remote-viewer
         if: steps.cache-sysroot.outputs.cache-hit != 'true'
         uses: actions/upload-artifact@v2
         with:
-          name: Sysroot
-          path: sysroot.tgz
+          name: remote-viewer-${{ matrix.platform }}-${{ matrix.arch }}
+          path: remote-viewer-${{ matrix.arch }}.tgz
 
   build-lnux:
     name: Build
@@ -104,9 +102,9 @@ jobs:
 
           sudo docker cp remote_viewer:/virt-viewer-v11.0/build/remote-viewer-${{ matrix.arch }}.tgz .
           ls -l ./
-      - name: Upload Sysroot
-        if: steps.cache-sysroot.outputs.cache-hit != 'true'
+      - name: Upload remote-viewer
+        if: steps.cache-remote-viewer.outputs.cache-hit != 'true'
         uses: actions/upload-artifact@v2
         with:
-          name: Sysroot-${{ matrix.platform }}-${{ matrix.arch }}
+          name: remote-viewer-${{ matrix.platform }}-${{ matrix.arch }}
           path: remote-viewer-${{ matrix.arch }}.tgz

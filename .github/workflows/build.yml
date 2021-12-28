@@ -86,7 +86,7 @@ jobs:
           wget https://gitlab.com/virt-viewer/virt-viewer/-/archive/v11.0/virt-viewer-v11.0.tar.gz
           tar -xzf virt-viewer-v11.0.tar.gz
           cd virt-viewer-v11.0
-          meson build
+          meson build -Dlibvirt=disabled -Dovirt=disabled -Dvte=disabled -Dbash_completion=disabled
           cd build
           meson install
           pwd

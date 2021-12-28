@@ -84,6 +84,7 @@ jobs:
           pip3 install --user meson
           pip3 install --user ninja
           find / -name "meson" 2>/dev/null
+          export PATH="/home/runner/.local/bin:$PATH" 
 
           wget https://gitlab.com/virt-viewer/virt-viewer/-/archive/v11.0/virt-viewer-v11.0.tar.gz
           tar -xzf virt-viewer-v11.0.tar.gz

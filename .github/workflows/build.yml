@@ -49,10 +49,8 @@ jobs:
       - name: Compress remote-viewer
         run: |
           ./virt-viewer-v11.0/build/src/remote-viewer --version
-          tar -czvf remote-viewer-${{ matrix.platform }}-${{ matrix.arch }}.tgz virt-viewer-v11.0/build/libs virt-viewer-v11.0/build/src
-          
-          ./virt-viewer-v11.0/build/src/remote-viewer
-
+          tar -czvf remote-viewer-${{ matrix.platform }}-${{ matrix.arch }}.tgz virt-viewer-v11.0/build/libs virt-viewer-v11.0/build/src/remote-viewer
+      
       - name: Upload remote-viewer artifact
         uses: actions/upload-artifact@v2
         with:

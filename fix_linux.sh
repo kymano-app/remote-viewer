@@ -25,6 +25,12 @@ fixup () {
 }
 
 fixup_all () {
+    ARCH=$1
+    ARCH_DIR="aarch64-linux-gnu";
+    if [ "$ARCH" == "amd64" ]; then
+        ARCH_DIR="x86_64-linux-gnu"
+    fi
+
     LIST=$(patchelf --print-needed src/remote-viewer | grep lib | grep -v "ld-linux" | grep -v "ld-2")
     NEWNAME="src/remote-viewer"
     for FILE in $LIST
@@ -33,13 +39,13 @@ fixup_all () {
     done
 
     mkdir "libs"
-    FILES=$(find "/lib/aarch64-linux-gnu/" -type f -maxdepth 1 -regex ".*.so.*" | grep -v "ld-linux" | grep -v "ld-2")
+    FILES=$(find "/lib/$ARCH_DIR/" -type f -maxdepth 1 -regex ".*.so.*" | grep -v "ld-linux" | grep -v "ld-2")
     for f in $FILES
     do
         fixup $f
     done
 
-    FILES=$(find "/lib/aarch64-linux-gnu/" -type l -maxdepth 1  -regex ".*.so.*" | grep -v "ld-linux" | grep -v "ld-2")
+    FILES=$(find "/lib/$ARCH_DIR/" -type l -maxdepth 1  -regex ".*.so.*" | grep -v "ld-linux" | grep -v "ld-2")
     for f in $FILES
     do
         BASE=$(basename "$f")
@@ -48,4 +54,4 @@ fixup_all () {
         cp -a $f $NEWNAME
     done
 }
-fixup_all
+fixup_all $1

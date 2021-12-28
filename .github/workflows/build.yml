@@ -25,7 +25,6 @@ jobs:
           sudo du -sh /usr/local 
 
       - name: Macports 0
-        if: steps.cache-sysroot.outputs.cache-hit != 'true'
         run: |
            wget https://github.com/macports/macports-base/releases/download/v2.7.1/MacPorts-2.7.1-11-BigSur.pkg
            sudo installer -pkg ./MacPorts-2.7.1-11-BigSur.pkg -target /
@@ -34,7 +33,7 @@ jobs:
         run: |
           export PATH="/opt/local/bin:$PATH" 
 
-          sudo port install glib2-devel gtk3 meson
+          sudo port install glib2-devel gtk3 meson pkgconfig
           wget https://gitlab.com/virt-viewer/virt-viewer/-/archive/v11.0/virt-viewer-v11.0.tar.gz
           tar -xzf virt-viewer-v11.0.tar.gz
           cd virt-viewer-v11.0
@@ -44,14 +43,15 @@ jobs:
           meson install
           pwd
           ls -l /opt/local/lib
-          chmod +x ../../fix.sh
-          ../../fix.sh
+          chmod +x ../../fix_mac.sh
+          ../../fix_mac.sh
 
       - name: Compress remote-viewer
-        if: steps.cache-remote-viewer.outputs.cache-hit != 'true'
         run: |
           ./virt-viewer-v11.0/build/src/remote-viewer --version
           tar -czvf remote-viewer-${{ matrix.platform }}-${{ matrix.arch }}.tgz virt-viewer-v11.0/build/libs virt-viewer-v11.0/build/src
+          
+          ./virt-viewer-v11.0/build/src/remote-viewer
 
       - name: Upload remote-viewer artifact
         uses: actions/upload-artifact@v2

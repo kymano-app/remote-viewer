@@ -1,11 +1,9 @@
-name: Build
+name: Publish
+
 on:
   push:
-    branches:
-      - "master"
-  pull_request:
-  release:
-    types: [created]
+    tags:
+      - "v*.*.*"
 
 jobs:
   build:
@@ -24,7 +22,7 @@ jobs:
       - name: before
         run: |
           ls -lt /usr/local/lib
-          sudo du -sh /usr/local
+          sudo du -sh /usr/local 
 
       - name: Macports 0
         if: steps.cache-sysroot.outputs.cache-hit != 'true'

@@ -1,5 +1,4 @@
 #!/bin/sh
-
 fix() {
    FILE=$1
    NEWNAME=$2

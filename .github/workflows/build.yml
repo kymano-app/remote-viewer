@@ -37,7 +37,8 @@ jobs:
         run: |
           export PATH="/opt/local/bin:$PATH" 
 
-          sudo port install glib2-devel gtk3 meson
+          sudo port install glib2-devel gtk3 python3 python3-pip python3-setuptools python3-wheel ninja-build
+          pip3 install meson
           wget https://gitlab.com/virt-viewer/virt-viewer/-/archive/v11.0/virt-viewer-v11.0.tar.gz
           tar -xzf virt-viewer-v11.0.tar.gz
           cd virt-viewer-v11.0

@@ -2,14 +2,12 @@
 fix() {
    FILE=$1
    NEWNAME=$2
-   base=$(basename "$FILE")
-   basefilename=${base%.*}
-   libname=${basefilename#lib*}
+   libname=$(basename "$FILE")
    dir=$(dirname "$FILE")
 
    echo "$dir == /opt/local/lib"
    if [ "$dir" == "/opt/local/lib" ]; then
-       newname="@executable_path/../libs/lib$libname.dylib"
+       newname="@executable_path/../libs/$libname"
        echo "install_name_tool -change $g $newname $NEWNAME"
        install_name_tool -change "$FILE" "$newname" "$NEWNAME"
    fi
@@ -18,9 +16,7 @@ fix() {
 fixup () {
     FILE=$1
     BASE=$(basename "$FILE")
-    BASEFILENAME=${BASE%.*}
-    LIBNAME=${BASEFILENAME#lib*}
-    NEWNAME="libs/lib$LIBNAME.dylib"
+    NEWNAME="libs/$BASE"
     echo "cp $FILE $NEWNAME"
     cp "$FILE" "$NEWNAME"
     echo "install_name_tool -id @executable_path/../$NEWNAME $NEWNAME"
@@ -41,19 +37,17 @@ fixup_all () {
     done
 
     mkdir "libs"
-    FILES=$(find "/opt/local/lib" -type f -name "*.dylib")
+    FILES=$(find "/opt/local/lib" -type f -name "*.so" -o -name "*.dylib")
     for f in $FILES
     do
         fixup $f
     done
     
-    FILES=$(find "/opt/local/lib" -type l -name "*.dylib")
+    FILES=$(find "/opt/local/lib" -type l -name "*.so" -o -name "*.dylib")
     for f in $FILES
     do
         BASE=$(basename "$f")
-        BASEFILENAME=${BASE%.*}
-        LIBNAME=${BASEFILENAME#lib*}
-        NEWNAME="libs/lib$LIBNAME.dylib"
+        NEWNAME="libs/$BASE"
         echo "cp -a $f $NEWNAME"
         cp -a $f $NEWNAME
     done

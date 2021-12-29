@@ -38,7 +38,7 @@ jobs:
           tar -xzf virt-viewer-v11.0.tar.gz
           cd virt-viewer-v11.0
           export PKG_CONFIG_PATH="/opt/local/lib/pkgconfig:/opt/local/share/pkgconfig:/usr/local/lib/pkgconfig:/usr/local/share/pkgconfig"
-          meson build
+          meson build -Dlibvirt=disabled -Dovirt=disabled -Dvte=disabled -Dbash_completion=disabled -Dvnc=enabled -Dspice=enabled 
           cd build
           meson install
           pwd
@@ -92,7 +92,7 @@ jobs:
           wget https://gitlab.com/virt-viewer/virt-viewer/-/archive/v11.0/virt-viewer-v11.0.tar.gz && \
           tar -xzf virt-viewer-v11.0.tar.gz && \
           cd virt-viewer-v11.0 && \
-          meson build -Dlibvirt=disabled -Dovirt=disabled -Dvte=disabled -Dbash_completion=disabled && \
+          meson build -Dlibvirt=disabled -Dovirt=disabled -Dvte=disabled -Dbash_completion=disabled -Dvnc=enabled -Dspice=enabled && \
           mkdir -p /usr/local/share/mime/packages && \
           chmod 0777 /usr/local/share/mime/packages && \
           cd build && \

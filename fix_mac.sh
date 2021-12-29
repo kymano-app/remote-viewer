@@ -60,7 +60,7 @@ fixup_all () {
     do
         BASE=$(basename "$f")
         NEWNAME="libs/$BASE"
-        echo "cp -a $f $NEWNAME"
+        echo "cp $f $NEWNAME"
         ls -l $f 
         cp -a $f $NEWNAME
         ls -l $NEWNAME

@@ -36,13 +36,13 @@ fixup_all () {
     done
 
     mkdir "libs"
-    FILES=$(find "/lib/$ARCH_DIR/" -type f -maxdepth 1 -regex ".*.so.*" | grep -v "ld-linux" | grep -v "ld-2")
+    FILES=$(find "/lib64/$ARCH_DIR/" -type f -maxdepth 1 -regex ".*.so.*" | grep -v "ld-linux" | grep -v "ld-2")
     for f in $FILES
     do
         fixup $f
     done
 
-    FILES=$(find "/lib/$ARCH_DIR/" -type l -maxdepth 1  -regex ".*.so.*" | grep -v "ld-linux" | grep -v "ld-2")
+    FILES=$(find "/lib64/$ARCH_DIR/" -type l -maxdepth 1  -regex ".*.so.*" | grep -v "ld-linux" | grep -v "ld-2")
     for f in $FILES
     do
         BASE=$(basename "$f")

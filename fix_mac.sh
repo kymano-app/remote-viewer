@@ -7,7 +7,7 @@ fix() {
 
    sudo chown runner $CHANGEABLE_FILE
    echo "LIB_DIR = $LIB_DIR"
-   if [ "$LIB_DIR" == "/opt/local/lib" || "$LIB_DIR" == "/opt/local/libexec/" ]; then
+   if [[ "$LIB_DIR" == "/opt/local/lib" || "$LIB_DIR" == "/opt/local/libexec/" ]]; then
        NEW_RELATIVE_LIB_PATH="@executable_path/../libs/$LIB_NAME"
        echo "install_name_tool -change $OLD_LIB_PATH $NEW_RELATIVE_LIB_PATH $CHANGEABLE_FILE"
        install_name_tool -change "$OLD_LIB_PATH" "$NEW_RELATIVE_LIB_PATH" "$CHANGEABLE_FILE"

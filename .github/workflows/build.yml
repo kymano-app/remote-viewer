@@ -83,26 +83,29 @@ jobs:
 
       - name: Install dependencies
         run: |
-          docker run -v $(pwd):/v --entrypoint /bin/sh --name remote_viewer --platform linux/${{ matrix.arch }} ubuntu -c "apt update && \
-          DEBIAN_FRONTEND=noninteractive apt install -y --no-install-recommends tzdata  && \
-          apt install -y wget pkg-config alien libgtk-vnc-2.0-0 spice-client-gtk libxml2-dev libglib2.0-dev libgtk-3-dev python3 python3-pip python3-setuptools python3-wheel && \
-          pip3 install --user meson && \
-          pip3 install --user ninja && \
-          export PATH="/root/.local/bin:$PATH" && \
-          #wget https://rpmfind.net/linux/fedora/linux/development/rawhide/Everything/aarch64/os/Packages/g/gtk-vnc2-devel-1.3.0-1.fc36.aarch64.rpm
-          echo 'libgtk-vnc-2.0.so'
-          find / -name "libgtk-vnc-2.0.so" 2>/dev/null
+          docker run -v $(pwd):/v --entrypoint /bin/sh --name remote_viewer --platform linux/${{ matrix.arch }} fedora -c "dnf update && \
+          dnf install gtk-vnc2-devel.aarch64 spice-gtk-tools libxml2-devel.aarch64
+
+          # docker run -v $(pwd):/v --entrypoint /bin/sh --name remote_viewer --platform linux/${{ matrix.arch }} ubuntu -c "apt update && \
+          # DEBIAN_FRONTEND=noninteractive apt install -y --no-install-recommends tzdata  && \
+          # apt install -y wget pkg-config libgtk-vnc-2.0-0 spice-client-gtk libxml2-dev libglib2.0-dev libgtk-3-dev python3 python3-pip python3-setuptools python3-wheel && \
+          # pip3 install --user meson && \
+          # pip3 install --user ninja && \
+          # export PATH="/root/.local/bin:$PATH" && \
+          # #wget https://rpmfind.net/linux/fedora/linux/development/rawhide/Everything/aarch64/os/Packages/g/gtk-vnc2-devel-1.3.0-1.fc36.aarch64.rpm
+          # echo 'libgtk-vnc-2.0.so'
+          # find / -name "libgtk-vnc-2.0.so" 2>/dev/null
           
-          echo 'prefix=/usr' >> /usr/lib/pkgconfig/gtk-vnc-2.0.pc
-          echo 'libdir=${prefix}/lib' >> /usr/lib/pkgconfig/gtk-vnc-2.0.pc
-          echo 'includedir=${prefix}/include' >> /usr/lib/pkgconfig/gtk-vnc-2.0.pc
-          echo '' >> /usr/lib/pkgconfig/gtk-vnc-2.0.pc
-          echo 'Name: gtk-vnc-2.0' >> /usr/lib/pkgconfig/gtk-vnc-2.0.pc
-          echo 'Description: GTK widget for a VNC client' >> /usr/lib/pkgconfig/gtk-vnc-2.0.pc
-          echo 'Version: 1.3.0' >> /usr/lib/pkgconfig/gtk-vnc-2.0.pc
-          echo 'Libs: -L${libdir} -lgtk-vnc-2.0' >> /usr/lib/pkgconfig/gtk-vnc-2.0.pc
-          echo 'Libs.private: -lm' >> /usr/lib/pkgconfig/gtk-vnc-2.0.pc
-          echo 'Cflags: -I${includedir}/gtk-vnc-2.0' >> /usr/lib/pkgconfig/gtk-vnc-2.0.pc
+          # echo 'prefix=/usr' >> /usr/lib/pkgconfig/gtk-vnc-2.0.pc
+          # echo 'libdir=${prefix}/lib' >> /usr/lib/pkgconfig/gtk-vnc-2.0.pc
+          # echo 'includedir=${prefix}/include' >> /usr/lib/pkgconfig/gtk-vnc-2.0.pc
+          # echo '' >> /usr/lib/pkgconfig/gtk-vnc-2.0.pc
+          # echo 'Name: gtk-vnc-2.0' >> /usr/lib/pkgconfig/gtk-vnc-2.0.pc
+          # echo 'Description: GTK widget for a VNC client' >> /usr/lib/pkgconfig/gtk-vnc-2.0.pc
+          # echo 'Version: 1.3.0' >> /usr/lib/pkgconfig/gtk-vnc-2.0.pc
+          # echo 'Libs: -L${libdir} -lgtk-vnc-2.0' >> /usr/lib/pkgconfig/gtk-vnc-2.0.pc
+          # echo 'Libs.private: -lm' >> /usr/lib/pkgconfig/gtk-vnc-2.0.pc
+          # echo 'Cflags: -I${includedir}/gtk-vnc-2.0' >> /usr/lib/pkgconfig/gtk-vnc-2.0.pc
 
           echo 'pkgconfig:::::'
           ls -l /usr/lib/pkgconfig/

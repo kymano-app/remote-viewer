@@ -19,6 +19,7 @@ fixup () {
     BASE=$(basename "$FILE")
     NEW_LIB_PATH="libs/$BASE"
     ls -l $FILE
+    rm -rf $NEW_LIB_PATH
     echo "cp $FILE $NEW_LIB_PATH"
     cp "$FILE" "$NEW_LIB_PATH"
     sudo chown runner $NEW_LIB_PATH

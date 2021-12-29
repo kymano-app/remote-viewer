@@ -94,15 +94,15 @@ jobs:
           find / -name "libgtk-vnc-2.0.so" 2>/dev/null
           
           echo 'prefix=/usr' >> /usr/lib/pkgconfig/gtk-vnc-2.0.pc
-          echo 'libdir=${prefix}/lib >> /usr/lib/pkgconfig/gtk-vnc-2.0.pc
-          echo 'includedir=${prefix}/include >> /usr/lib/pkgconfig/gtk-vnc-2.0.pc
+          echo 'libdir=${prefix}/lib' >> /usr/lib/pkgconfig/gtk-vnc-2.0.pc
+          echo 'includedir=${prefix}/include' >> /usr/lib/pkgconfig/gtk-vnc-2.0.pc
           echo '' >> /usr/lib/pkgconfig/gtk-vnc-2.0.pc
-          echo 'Name: gtk-vnc-2.0 >> /usr/lib/pkgconfig/gtk-vnc-2.0.pc
-          echo 'Description: GTK widget for a VNC client >> /usr/lib/pkgconfig/gtk-vnc-2.0.pc
-          echo 'Version: 1.3.0 >> /usr/lib/pkgconfig/gtk-vnc-2.0.pc
-          echo 'Libs: -L${libdir} -lgtk-vnc-2.0 >> /usr/lib/pkgconfig/gtk-vnc-2.0.pc
-          echo 'Libs.private: -lm >> /usr/lib/pkgconfig/gtk-vnc-2.0.pc
-          echo 'Cflags: -I${includedir}/gtk-vnc-2.0 >> /usr/lib/pkgconfig/gtk-vnc-2.0.pc
+          echo 'Name: gtk-vnc-2.0' >> /usr/lib/pkgconfig/gtk-vnc-2.0.pc
+          echo 'Description: GTK widget for a VNC client' >> /usr/lib/pkgconfig/gtk-vnc-2.0.pc
+          echo 'Version: 1.3.0' >> /usr/lib/pkgconfig/gtk-vnc-2.0.pc
+          echo 'Libs: -L${libdir} -lgtk-vnc-2.0' >> /usr/lib/pkgconfig/gtk-vnc-2.0.pc
+          echo 'Libs.private: -lm' >> /usr/lib/pkgconfig/gtk-vnc-2.0.pc
+          echo 'Cflags: -I${includedir}/gtk-vnc-2.0' >> /usr/lib/pkgconfig/gtk-vnc-2.0.pc
 
           echo 'pkgconfig:::::'
           ls -l /usr/lib/pkgconfig/

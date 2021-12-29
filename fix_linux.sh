@@ -14,7 +14,7 @@ fixup () {
     NEWNAME="libs/$BASE"
     echo "cp $FILE $NEWNAME"
     cp "$FILE" "$NEWNAME"
-    LIST=$(patchelf --print-needed $FILE | grep lib | grep -v "libz.so.1" | grep -v "libcrypto.so.1.1" | grep -v "libssl.so.1.1"))
+    LIST=$(patchelf --print-needed $FILE | grep lib | grep -v "libz.so.1" | grep -v "libcrypto.so.1.1" | grep -v "libssl.so.1.1")
     for FILE in $LIST
     do
         fix $FILE $NEWNAME

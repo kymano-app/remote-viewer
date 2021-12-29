@@ -37,12 +37,7 @@ fixup_all () {
     done
 
     mkdir "libs"
-    LIB_LIST=$(find -E "/opt/local/lib" -type f  -iregex '.*\.(dylib|so)')
-    for LIB in $LIB_LIST
-    do
-        fixup $LIB
-    done
-    
+
     FILES=$(find -E "/opt/local/lib" -type l  -iregex '.*\.(dylib|so)')
     for f in $FILES
     do
@@ -51,5 +46,19 @@ fixup_all () {
         echo "cp -a $f $NEWNAME"
         cp -a $f $NEWNAME
     done
+
+    LIB_LIST=$(find -E "/opt/local/lib" -type f  -iregex '.*\.(dylib|so)')
+    for LIB in $LIB_LIST
+    do
+        fixup $LIB
+    done
+
+
+    LIB_LIST=$(find -E "/opt/local/libexec" -type f  -iregex '.*\.(dylib|so)')
+    for LIB in $LIB_LIST
+    do
+        fixup $LIB
+    done
+    
 }
 fixup_all

@@ -53,6 +53,15 @@ fixup_all () {
         cp -a $f $NEWNAME
     done
 
+    FILES=$(find -E "/opt/local/libexec" -type l  -iregex '.*\.(dylib|so)')
+    for f in $FILES
+    do
+        BASE=$(basename "$f")
+        NEWNAME="libs/$BASE"
+        echo "cp -a $f $NEWNAME"
+        cp -a $f $NEWNAME
+    done
+
     LIB_LIST=$(find -E "/opt/local/lib" -type f  -iregex '.*\.(dylib|so)')
     for LIB in $LIB_LIST
     do

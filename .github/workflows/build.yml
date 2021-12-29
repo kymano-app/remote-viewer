@@ -85,8 +85,8 @@ jobs:
         run: |
           docker run -v $(pwd):/v --entrypoint /bin/sh --name remote_viewer --platform linux/${{ matrix.arch }} fedora -c "dnf update -y && \
           dnf install -y findutils && \
-          find "/lib64/" -regex ".*.so.*" > exclude_full_path.txt && \
-          find "/lib64/" -regex ".*.so.*" | xargs -L 1 basename > exclude_files.txt && \
+          find "/lib64/" -regex ".*.so.*" > /exclude_full_path.txt && \
+          find "/lib64/" -regex ".*.so.*" | xargs -L 1 basename > /exclude_files.txt && \
           dnf install -y patchelf wget gtk-vnc2-devel spice-gtk-tools spice-glib-devel spice-gtk3-devel libxml2-devel glib2-devel gtk3-devel meson && \
           wget https://gitlab.com/virt-viewer/virt-viewer/-/archive/v11.0/virt-viewer-v11.0.tar.gz && \
           tar -xzf virt-viewer-v11.0.tar.gz && \

@@ -7,9 +7,9 @@ fix() {
 
    echo "$LIB_DIR == /opt/local/lib"
    if [ "$LIB_DIR" == "/opt/local/lib" ]; then
-       NEW_LIB_PATH="@executable_path/../libs/$LIB_NAME"
-       echo "install_name_tool -change $OLD_LIB_PATH $NEW_LIB_PATH $CHANGEABLE_FILE"
-       install_name_tool -change "$OLD_LIB_PATH" "$NEW_LIB_PATH" "$CHANGEABLE_FILE"
+       NEW_RELATIVE_LIB_PATH="@executable_path/../libs/$LIB_NAME"
+       echo "install_name_tool -change $OLD_LIB_PATH $NEW_RELATIVE_LIB_PATH $CHANGEABLE_FILE"
+       install_name_tool -change "$OLD_LIB_PATH" "$NEW_RELATIVE_LIB_PATH" "$CHANGEABLE_FILE"
    fi
 }
 

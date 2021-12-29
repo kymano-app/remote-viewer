@@ -5,6 +5,7 @@ fix() {
    LIB_NAME=$(basename "$OLD_LIB_PATH")
    LIB_DIR=$(dirname "$OLD_LIB_PATH")
 
+   sudo chown runner $CHANGEABLE_FILE
    echo "$LIB_DIR == /opt/local/lib"
    if [ "$LIB_DIR" == "/opt/local/lib" ]; then
        NEW_RELATIVE_LIB_PATH="@executable_path/../libs/$LIB_NAME"
@@ -19,6 +20,8 @@ fixup () {
     NEW_LIB_PATH="libs/$BASE"
     echo "cp $FILE $NEW_LIB_PATH"
     cp "$FILE" "$NEW_LIB_PATH"
+    sudo chown runner $NEW_LIB_PATH
+
     echo "install_name_tool -id @executable_path/../$NEW_LIB_PATH $NEW_LIB_PATH"
     install_name_tool -id "@executable_path/../$NEW_LIB_PATH" "$NEW_LIB_PATH"
     LIBS_LIST=$(otool -L "$FILE" | tail -n +2 | cut -d ' ' -f 1 | awk '{$1=$1};1')

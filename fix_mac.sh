@@ -50,7 +50,9 @@ fixup_all () {
         BASE=$(basename "$f")
         NEWNAME="libs/$BASE"
         echo "cp -a $f $NEWNAME"
+        ls -l $f 
         cp -a $f $NEWNAME
+        ls -l $NEWNAME
     done
 
     FILES=$(find -E "/opt/local/libexec" -type l  -iregex '.*\.(dylib|so)')
@@ -59,7 +61,9 @@ fixup_all () {
         BASE=$(basename "$f")
         NEWNAME="libs/$BASE"
         echo "cp -a $f $NEWNAME"
+        ls -l $f 
         cp -a $f $NEWNAME
+        ls -l $NEWNAME
     done
 
     LIB_LIST=$(find -E "/opt/local/lib" -type f  -iregex '.*\.(dylib|so)')

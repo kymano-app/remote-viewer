@@ -1,8 +1,8 @@
 #!/bin/sh
 fix() {
-   FILE=$1
+   FIX_FILE=$1
    NEWNAME=$2
-   base=$(basename "$FILE")
+   base=$(basename "$FIX_FILE")
    newname="\$ORIGIN/../libs/$base"
    echo "--set-rpath \$ORIGIN/../libs/ $NEWNAME"
    patchelf --set-rpath "\$ORIGIN/../libs/" "$NEWNAME"
@@ -14,7 +14,7 @@ fixup () {
     NEWNAME="libs/$BASE"
     echo "cp $FILE $NEWNAME"
     cp "$FILE" "$NEWNAME"
-    LIST=$(patchelf --print-needed $FILE | grep lib | grep -v "ld-linux" | grep -v "ld-2" | grep -v "libc.so")
+    LIST=$(patchelf --print-needed $FILE | grep lib | grep -v "libz.so.1" | grep -v "libcrypto.so.1.1" | grep -v "libssl.so.1.1"))
     for FILE in $LIST
     do
         fix $FILE $NEWNAME
@@ -34,25 +34,26 @@ fixup_all () {
         ARCH_DIR="x86_64-linux-gnu"
     fi
 
-    LIST=$(patchelf --print-needed src/remote-viewer | grep lib | grep -v "ld-linux" | grep -v "ld-2" | grep -v "libc.so")
+    LIST=$(patchelf --print-needed src/remote-viewer | grep lib | grep -v "libz.so.1" | grep -v "libcrypto.so.1.1" | grep -v "libssl.so.1.1")
     NEWNAME="src/remote-viewer"
     for FILE in $LIST
     do
-        CONTAIN_EXCLUDE='0'
-        for EXCLUDE in "${EXCLUDE_ARR_FILES[@]}"; do
-            echo "EXCLUDE ??? $EXCLUDE" == "$FILE"
-            if [[ "$EXCLUDE" == "$FILE" ]]; then
-                CONTAIN_EXCLUDE='1'
-            fi
-        done
-        echo "CONTAIN_EXCLUDE:::$CONTAIN_EXCLUDE : $FILE"
-        if [[ $CONTAIN_EXCLUDE == '0' ]]; then
-            fix $FILE $NEWNAME
-        fi
+        fix $FILE $NEWNAME
+        # CONTAIN_EXCLUDE='0'
+        # for EXCLUDE in "${EXCLUDE_ARR_FILES[@]}"; do
+        #     echo "EXCLUDE ??? $EXCLUDE" == "$FILE"
+        #     if [[ "$EXCLUDE" == "$FILE" ]]; then
+        #         CONTAIN_EXCLUDE='1'
+        #     fi
+        # done
+        # echo "CONTAIN_EXCLUDE:::$CONTAIN_EXCLUDE : $FILE"
+        # if [[ $CONTAIN_EXCLUDE == '0' ]]; then
+        #     fix $FILE $NEWNAME
+        # fi
     done
 
     mkdir "libs"
-    FILES=$(find "/lib64/" -type l -regex ".*.so.*" | grep -v "ld-linux" | grep -v "ld-2" | grep -v "libc.so")
+    FILES=$(find "/lib64/" -type l -regex ".*.so.*" | grep -v "libz.so.1" | grep -v "libcrypto.so.1.1" | grep -v "libssl.so.1.1")
     for f in $FILES
     do
         BASE=$(basename "$f")
@@ -61,20 +62,21 @@ fixup_all () {
         cp -a $f $NEWNAME
     done
 
-    FILES=$(find "/lib64/" -type f -regex ".*.so.*" | grep -v "ld-linux" | grep -v "ld-2" | grep -v "libc.so")
+    FILES=$(find "/lib64/" -type f -regex ".*.so.*" | grep -v "libz.so.1" | grep -v "libcrypto.so.1.1" | grep -v "libssl.so.1.1")
     for FILE in $FILES
     do
-        CONTAIN_EXCLUDE='0'
-        for EXCLUDE in "${EXCLUDE_ARR_PATHES[@]}"; do
-            echo "EXCLUDE ??? $EXCLUDE" == "$FILE"
-            if [[ "$EXCLUDE" == "$FILE" ]]; then
-                CONTAIN_EXCLUDE='1'
-            fi
-        done
-        echo "CONTAIN_EXCLUDE:::$CONTAIN_EXCLUDE : $FILE"
-        if [[ $CONTAIN_EXCLUDE == '0' ]]; then
-            fixup $FILE
-        fi
+        fixup $FILE
+        # CONTAIN_EXCLUDE='0'
+        # for EXCLUDE in "${EXCLUDE_ARR_PATHES[@]}"; do
+        #     echo "EXCLUDE ??? $EXCLUDE" == "$FILE"
+        #     if [[ "$EXCLUDE" == "$FILE" ]]; then
+        #         CONTAIN_EXCLUDE='1'
+        #     fi
+        # done
+        # echo "CONTAIN_EXCLUDE:::$CONTAIN_EXCLUDE : $FILE"
+        # if [[ $CONTAIN_EXCLUDE == '0' ]]; then
+        #     fixup $FILE
+        # fi
     done
 }
 fixup_all $1

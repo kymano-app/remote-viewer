@@ -35,6 +35,7 @@ fixup_all () {
         fix $FILE $NEWNAME
     done
 
+    mkdir "libs"
     FILES=$(find "/lib64/" -type l -regex ".*.so.*" | grep -v "ld-linux" | grep -v "ld-2" | grep -v "libc.so")
     for f in $FILES
     do
@@ -44,7 +45,6 @@ fixup_all () {
         cp -a $f $NEWNAME
     done
 
-    mkdir "libs"
     FILES=$(find "/lib64/" -type f -regex ".*.so.*" | grep -v "ld-linux" | grep -v "ld-2" | grep -v "libc.so")
     for f in $FILES
     do

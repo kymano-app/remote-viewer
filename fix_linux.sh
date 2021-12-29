@@ -36,15 +36,15 @@ fixup_all () {
     NEWNAME="src/remote-viewer"
     for FILE in $LIST
     do
-        CONTAIN_EXCLUDE = 0
+        CONTAIN_EXCLUDE = '0'
         for EXCLUDE in "${EXCLUDE_ARR_FILES[@]}"; do
             echo "EXCLUDE ??? $EXCLUDE" == "$FILE"
             if [[ "$EXCLUDE" == "$FILE" ]]; then
-                CONTAIN_EXCLUDE = 1
+                CONTAIN_EXCLUDE = '1'
             fi
         done
         echo "CONTAIN_EXCLUDE:::$CONTAIN_EXCLUDE : $FILE"
-        if [[ $CONTAIN_EXCLUDE == 0 ]]; do
+        if [[ $CONTAIN_EXCLUDE == '0' ]]; then
             fix $FILE $NEWNAME
         fi
     done
@@ -62,15 +62,15 @@ fixup_all () {
     FILES=$(find "/lib64/" -type f -regex ".*.so.*" | grep -v "ld-linux" | grep -v "ld-2" | grep -v "libc.so")
     for FILE in $FILES
     do
-        CONTAIN_EXCLUDE = 0
+        CONTAIN_EXCLUDE = '0'
         for EXCLUDE in "${EXCLUDE_ARR_PATHES[@]}"; do
             echo "EXCLUDE ??? $EXCLUDE" == "$FILE"
             if [[ "$EXCLUDE" == "$FILE" ]]; then
-                CONTAIN_EXCLUDE = 1
+                CONTAIN_EXCLUDE = '1'
             fi
         done
         echo "CONTAIN_EXCLUDE:::$CONTAIN_EXCLUDE : $FILE"
-        if [[ $CONTAIN_EXCLUDE == 0 ]]; do
+        if [[ $CONTAIN_EXCLUDE == '0' ]]; then
             fixup $FILE
         fi
     done

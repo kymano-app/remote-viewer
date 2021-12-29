@@ -18,9 +18,11 @@ fixup () {
     FILE=$1
     BASE=$(basename "$FILE")
     NEW_LIB_PATH="libs/$BASE"
+    ls -l $FILE
     echo "cp $FILE $NEW_LIB_PATH"
     cp "$FILE" "$NEW_LIB_PATH"
     sudo chown runner $NEW_LIB_PATH
+    ls -l $NEW_LIB_PATH
 
     echo "install_name_tool -id @executable_path/../$NEW_LIB_PATH $NEW_LIB_PATH"
     install_name_tool -id "@executable_path/../$NEW_LIB_PATH" "$NEW_LIB_PATH"

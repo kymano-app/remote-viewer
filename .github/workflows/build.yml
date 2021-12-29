@@ -83,7 +83,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          docker run -v $(pwd):/v --entrypoint /bin/sh --name remote_viewer --platform linux/${{ matrix.arch }} fedora -c "dnf update -y && dnf install -y  patchelf wget gtk-vnc2-devel spice-gtk-tools spice-glib-devel spice-gtk3-devel libxml2-devel glib2-devel gtk3-devel meson perl && \
+          docker run -v $(pwd):/v --entrypoint /bin/sh --name remote_viewer --platform linux/${{ matrix.arch }} fedora -c "dnf update -y && dnf install -y  patchelf wget gtk-vnc2-devel spice-gtk-tools spice-glib-devel spice-gtk3-devel libxml2-devel glib2-devel gtk3-devel meson && \
           wget https://gitlab.com/virt-viewer/virt-viewer/-/archive/v11.0/virt-viewer-v11.0.tar.gz && \
           tar -xzf virt-viewer-v11.0.tar.gz && \
           cd virt-viewer-v11.0 && \

@@ -22,6 +22,10 @@ fixup () {
 }
 
 fixup_all () {
+    readarray -t EXCLUDE_ARR_FILES < "exclude_files.txt";
+    readarray -t EXCLUDE_ARR_PATHES < "exclude_files.txt";
+    echo "EXCLUDE_ARR_FILES::: ${EXCLUDE_ARR_FILES[@]}"
+    echo "EXCLUDE_ARR_PATHES::: ${EXCLUDE_ARR_PATHES[@]}"
     ARCH=$1
     ARCH_DIR="aarch64-linux-gnu";
     if [ "$ARCH" == "amd64" ]; then
@@ -32,7 +36,17 @@ fixup_all () {
     NEWNAME="src/remote-viewer"
     for FILE in $LIST
     do
-        fix $FILE $NEWNAME
+        CONTAIN_EXCLUDE = 0
+        for EXCLUDE in "${EXCLUDE_ARR_FILES[@]}"; do
+            echo "EXCLUDE ??? $EXCLUDE" == "$FILE"
+            if [[ "$EXCLUDE" == "$FILE" ]]; then
+                CONTAIN_EXCLUDE = 1
+            fi
+        done
+        echo "CONTAIN_EXCLUDE:::$CONTAIN_EXCLUDE : $FILE"
+        if [[ $CONTAIN_EXCLUDE == 0 ]]; do
+            fix $FILE $NEWNAME
+        fi
     done
 
     mkdir "libs"
@@ -46,9 +60,19 @@ fixup_all () {
     done
 
     FILES=$(find "/lib64/" -type f -regex ".*.so.*" | grep -v "ld-linux" | grep -v "ld-2" | grep -v "libc.so")
-    for f in $FILES
+    for FILE in $FILES
     do
-        fixup $f
+        CONTAIN_EXCLUDE = 0
+        for EXCLUDE in "${EXCLUDE_ARR_PATHES[@]}"; do
+            echo "EXCLUDE ??? $EXCLUDE" == "$FILE"
+            if [[ "$EXCLUDE" == "$FILE" ]]; then
+                CONTAIN_EXCLUDE = 1
+            fi
+        done
+        echo "CONTAIN_EXCLUDE:::$CONTAIN_EXCLUDE : $FILE"
+        if [[ $CONTAIN_EXCLUDE == 0 ]]; do
+            fixup $FILE
+        fi
     done
 }
 fixup_all $1

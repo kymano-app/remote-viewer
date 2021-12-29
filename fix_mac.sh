@@ -1,46 +1,46 @@
 #!/bin/sh
 fix() {
-   FILE=$1
-   NEWNAME=$2
-   libname=$(basename "$FILE")
-   dir=$(dirname "$FILE")
+   OLD_LIB_PATH=$1
+   CHANGEABLE_FILE=$2
+   LIB_NAME=$(basename "$OLD_LIB_PATH")
+   LIB_DIR=$(dirname "$OLD_LIB_PATH")
 
-   echo "$dir == /opt/local/lib"
-   if [ "$dir" == "/opt/local/lib" ]; then
-       newname="@executable_path/../libs/$libname"
-       echo "install_name_tool -change $g $newname $NEWNAME"
-       install_name_tool -change "$FILE" "$newname" "$NEWNAME"
+   echo "$LIB_DIR == /opt/local/lib"
+   if [ "$LIB_DIR" == "/opt/local/lib" ]; then
+       NEW_LIB_PATH="@executable_path/../libs/$LIB_NAME"
+       echo "install_name_tool -change $OLD_LIB_PATH $NEW_LIB_PATH $CHANGEABLE_FILE"
+       install_name_tool -change "$OLD_LIB_PATH" "$NEW_LIB_PATH" "$CHANGEABLE_FILE"
    fi
 }
 
 fixup () {
     FILE=$1
     BASE=$(basename "$FILE")
-    NEWNAME="libs/$BASE"
-    echo "cp $FILE $NEWNAME"
-    cp "$FILE" "$NEWNAME"
-    echo "install_name_tool -id @executable_path/../$NEWNAME $NEWNAME"
-    install_name_tool -id "@executable_path/../$NEWNAME" "$NEWNAME"
-    LIST=$(otool -L "$FILE" | tail -n +2 | cut -d ' ' -f 1 | awk '{$1=$1};1')
-    for FILE in $LIST
+    NEW_LIB_PATH="libs/$BASE"
+    echo "cp $FILE $NEW_LIB_PATH"
+    cp "$FILE" "$NEW_LIB_PATH"
+    echo "install_name_tool -id @executable_path/../$NEW_LIB_PATH $NEW_LIB_PATH"
+    install_name_tool -id "@executable_path/../$NEW_LIB_PATH" "$NEW_LIB_PATH"
+    LIBS_LIST=$(otool -L "$FILE" | tail -n +2 | cut -d ' ' -f 1 | awk '{$1=$1};1')
+    for LIB in $LIBS_LIST
     do
-        fix $FILE $NEWNAME
+        fix $LIB $NEW_LIB_PATH
     done
 }
 
 fixup_all () {
-    LIST=$(otool -L src/remote-viewer| tail -n +2 | cut -d ' ' -f 1 | awk '{$1=$1};1')
-    NEWNAME="src/remote-viewer"
-    for FILE in $LIST
+    LIB_LIST=$(otool -L src/remote-viewer| tail -n +2 | cut -d ' ' -f 1 | awk '{$1=$1};1')
+    CHANGEABLE_FILE="src/remote-viewer"
+    for LIB in $LIB_LIST
     do
-        fix $FILE $NEWNAME
+        fix $LIB $CHANGEABLE_FILE
     done
 
     mkdir "libs"
-    FILES=$(find "/opt/local/lib" -type f -name "*.so" -o -name "*.dylib")
-    for f in $FILES
+    LIB_LIST=$(find "/opt/local/lib" -type f -name "*.so" -o -name "*.dylib")
+    for LIB in $LIB_LIST
     do
-        fixup $f
+        fixup $LIB
     done
     
     FILES=$(find "/opt/local/lib" -type l -name "*.so" -o -name "*.dylib")

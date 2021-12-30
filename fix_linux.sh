@@ -50,6 +50,7 @@ fixup_all () {
     do
         fixup $FILE
     done
+    
     if [ "$ARCH" == "arm64" ]; then
         cp /lib/ld-* libs/
     fi

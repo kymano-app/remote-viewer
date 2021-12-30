@@ -33,11 +33,10 @@ jobs:
         run: |
           export PATH="/opt/local/bin:$PATH" 
 
-          sudo port install glib2-devel gtk3 gtk-vnc meson pkgconfig spice-gtk
+          sudo port install meson lib/pkgconfig/glib-2.0.pc:glib2 libxml2 libvirt libvirt-glib lib/pkgconfig/gtk+-3.0.pc:gtk3 gtk-vnc spice-gtk
           wget https://gitlab.com/virt-viewer/virt-viewer/-/archive/v11.0/virt-viewer-v11.0.tar.gz
           tar -xzf virt-viewer-v11.0.tar.gz
           cd virt-viewer-v11.0
-          export PKG_CONFIG_PATH="/opt/local/lib/pkgconfig:/opt/local/share/pkgconfig:/usr/local/lib/pkgconfig:/usr/local/share/pkgconfig"
           meson build -Dlibvirt=disabled -Dovirt=disabled -Dvte=disabled -Dbash_completion=disabled -Dvnc=enabled -Dspice=enabled 
           cd build
           meson install
@@ -110,4 +109,3 @@ jobs:
           files: |
             remote-viewer-${{ matrix.platform }}-${{ matrix.arch }}.tgz
           prerelease: true
-          

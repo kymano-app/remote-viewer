@@ -91,6 +91,8 @@ jobs:
           wget https://gitlab.com/virt-viewer/virt-viewer/-/archive/v11.0/virt-viewer-v11.0.tar.gz && \
           tar -xzf virt-viewer-v11.0.tar.gz && \
           cd virt-viewer-v11.0 && \
+          echo 'LDFLAGS:::::' && \
+          export LDFLAGS="-static" && \ 
           meson build -Dlibvirt=disabled -Dovirt=disabled -Dvte=disabled -Dbash_completion=disabled -Dvnc=enabled -Dspice=enabled
           cd build && \
           meson install && \

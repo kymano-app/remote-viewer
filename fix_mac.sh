@@ -79,5 +79,6 @@ fixup_all () {
         fixup $LIB
     done
     
+    cp -r /opt/local/share .
 }
 fixup_all

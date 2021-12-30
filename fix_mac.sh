@@ -78,7 +78,11 @@ fixup_all () {
     do
         fixup $LIB
     done
-    
-    cp -r /opt/local/share .
+    mkdir share
+    cp -r /opt/local/share/locale share/
+    cp -r /opt/local/share/appdata share/
+    cp -r /opt/local/share/applications share/
+    cp -r /opt/local/share/icons share/
+    cp -r /opt/local/share/mime share/
 }
 fixup_all

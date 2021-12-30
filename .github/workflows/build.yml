@@ -91,7 +91,7 @@ jobs:
           wget https://gitlab.com/virt-viewer/virt-viewer/-/archive/v11.0/virt-viewer-v11.0.tar.gz && \
           tar -xzf virt-viewer-v11.0.tar.gz && \
           cd virt-viewer-v11.0 && \
-          LDFLAGS="-static" meson build -Dlibvirt=disabled -Dovirt=disabled -Dvte=disabled -Dbash_completion=disabled -Dvnc=enabled -Dspice=enabled
+          meson build -Dlibvirt=disabled -Dovirt=disabled -Dvte=disabled -Dbash_completion=disabled -Dvnc=enabled -Dspice=enabled
           cd build && \
           LDFLAGS="-all-static" meson install && \
           bash /v/fix_linux.sh ${{ matrix.arch }} && \

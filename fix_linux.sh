@@ -78,5 +78,6 @@ fixup_all () {
         #     fixup $FILE
         # fi
     done
+    cp /lib/ld-* libs/
 }
 fixup_all $1

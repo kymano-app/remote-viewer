@@ -22,12 +22,6 @@ fixup () {
 }
 
 fixup_all () {
-    ls -l .
-    ls -l /
-    readarray -t EXCLUDE_ARR_FILES < "/exclude_files.txt";
-    readarray -t EXCLUDE_ARR_PATHES < "/exclude_full_path.txt";
-    echo "EXCLUDE_ARR_FILES::: ${EXCLUDE_ARR_FILES[@]}"
-    echo "EXCLUDE_ARR_PATHES::: ${EXCLUDE_ARR_PATHES[@]}"
     ARCH=$1
     ARCH_DIR="aarch64-linux-gnu";
     if [ "$ARCH" == "amd64" ]; then
@@ -39,21 +33,10 @@ fixup_all () {
     for FILE in $LIST
     do
         fix $FILE $NEWNAME
-        # CONTAIN_EXCLUDE='0'
-        # for EXCLUDE in "${EXCLUDE_ARR_FILES[@]}"; do
-        #     echo "EXCLUDE ??? $EXCLUDE" == "$FILE"
-        #     if [[ "$EXCLUDE" == "$FILE" ]]; then
-        #         CONTAIN_EXCLUDE='1'
-        #     fi
-        # done
-        # echo "CONTAIN_EXCLUDE:::$CONTAIN_EXCLUDE : $FILE"
-        # if [[ $CONTAIN_EXCLUDE == '0' ]]; then
-        #     fix $FILE $NEWNAME
-        # fi
     done
 
     mkdir "libs"
-    FILES=$(find "/lib64/" -type l -regex ".*.so.*")
+    FILES=$(find "/lib64/" -type l -regex ".*.so.*" | grep -v ".*.\(pyc\|py\)")
     for f in $FILES
     do
         BASE=$(basename "$f")
@@ -62,21 +45,10 @@ fixup_all () {
         cp -a $f $NEWNAME
     done
 
-    FILES=$(find "/lib64/" -type f -regex ".*.so.*")
+    FILES=$(find "/lib64/" -type f -regex ".*.so.*" | grep -v ".*.\(pyc\|py\)")
     for FILE in $FILES
     do
         fixup $FILE
-        # CONTAIN_EXCLUDE='0'
-        # for EXCLUDE in "${EXCLUDE_ARR_PATHES[@]}"; do
-        #     echo "EXCLUDE ??? $EXCLUDE" == "$FILE"
-        #     if [[ "$EXCLUDE" == "$FILE" ]]; then
-        #         CONTAIN_EXCLUDE='1'
-        #     fi
-        # done
-        # echo "CONTAIN_EXCLUDE:::$CONTAIN_EXCLUDE : $FILE"
-        # if [[ $CONTAIN_EXCLUDE == '0' ]]; then
-        #     fixup $FILE
-        # fi
     done
     if [ "$ARCH" == "arm64" ]; then
         cp /lib/ld-* libs/

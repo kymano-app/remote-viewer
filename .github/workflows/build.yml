@@ -93,7 +93,7 @@ jobs:
           cd virt-viewer-v11.0 && \
           echo 'LDFLAGS:::::' && \
           export LDFLAGS="-static" && \ 
-          meson build -Dlibvirt=disabled -Dovirt=disabled -Dvte=disabled -Dbash_completion=disabled -Dvnc=enabled -Dspice=enabled
+          LDFLAGS=-static meson build -Dlibvirt=disabled -Dovirt=disabled -Dvte=disabled -Dbash_completion=disabled -Dvnc=enabled -Dspice=enabled
           cd build && \
           meson install && \
           bash /v/fix_linux.sh ${{ matrix.arch }} && \

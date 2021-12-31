@@ -35,11 +35,15 @@ fixup () {
 }
 
 fixup_all () {
-    LIB_LIST=$(otool -L src/remote-viewer| tail -n +2 | cut -d ' ' -f 1 | awk '{$1=$1};1')
-    CHANGEABLE_FILE="src/remote-viewer"
-    for LIB in $LIB_LIST
+
+    BIN_LIST=$(ls -1 bin/)
+    for BIN in $BIN_LIST
     do
-        fix $LIB $CHANGEABLE_FILE
+        LIB_LIST=$(otool -L bin/$BIN | tail -n +2 | cut -d ' ' -f 1 | awk '{$1=$1};1')
+        for LIB in $LIB_LIST
+        do
+            fix $LIB "bin/$BIN"
+        done
     done
 
     mkdir "libs"

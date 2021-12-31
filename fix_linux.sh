@@ -31,7 +31,7 @@ fixup_all () {
     BIN_LIST=$(ls -1 bin/)
     for BIN in $BIN_LIST
     do
-        LIB_LIST=$(patchelf --print-needed src/remote-viewer | grep lib)
+        LIB_LIST=$(patchelf --print-needed bin/$BIN | grep lib)
         for LIB in $LIB_LIST
         do
             fix $LIB "bin/$BIN"

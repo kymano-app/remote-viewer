@@ -42,14 +42,15 @@ jobs:
           cd build
           meson install
           pwd
-          ls -l /opt/local/lib
+          mkdir bin
+          cp src/remote-viewer bin/
           chmod +x ../../fix_mac.sh
           ../../fix_mac.sh
 
       - name: Compress remote-viewer
         run: |
-          ./virt-viewer-v11.0/build/src/remote-viewer --version
-          tar -czvf remote-viewer-${{ matrix.platform }}-${{ matrix.arch }}.tgz virt-viewer-v11.0/build/share virt-viewer-v11.0/build/libs virt-viewer-v11.0/build/src/remote-viewer
+          cd virt-viewer-v11.0/build/
+          tar -czvf remote-viewer-${{ matrix.platform }}-${{ matrix.arch }}.tgz share libs bin
       
       - name: Upload remote-viewer artifact
         uses: actions/upload-artifact@v2
@@ -92,7 +93,7 @@ jobs:
           meson build -Dlibvirt=disabled -Dovirt=disabled -Dvte=disabled -Dbash_completion=disabled -Dvnc=enabled -Dspice=enabled
           cd build && \
           meson install && \
-          mkdir "bin" && \
+          mkdir bin && \
           cp src/remote-viewer bin/ && \
           bash /v/fix_linux.sh ${{ matrix.arch }} && \
           tar -czvf remote-viewer-${{ matrix.platform }}-${{ matrix.arch }}.tgz libs bin"

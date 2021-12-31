@@ -39,7 +39,7 @@ fixup_all () {
     done
 
     mkdir "libs"
-    FILES=$(find "/lib64/" -type l -regex ".*.so.*" | grep -v ".*.\(pyc\|py\)")
+    FILES=$(find "/lib64/" -type l -regex ".*.so.*" | grep -v ".*.\(pyc\|py\)$")
     for f in $FILES
     do
         BASE=$(basename "$f")
@@ -48,7 +48,7 @@ fixup_all () {
         cp -a $f $NEWNAME
     done
 
-    FILES=$(find "/lib64/" -type f -regex ".*.so.*" | grep -v ".*.\(pyc\|py\)")
+    FILES=$(find "/lib64/" -type f -regex ".*.so.*" | grep -v ".*.\(pyc\|py\)$")
     for FILE in $FILES
     do
         fixup $FILE

@@ -28,11 +28,14 @@ fixup_all () {
         ARCH_DIR="x86_64-linux-gnu"
     fi
 
-    LIST=$(patchelf --print-needed src/remote-viewer | grep lib)
-    NEWNAME="src/remote-viewer"
-    for FILE in $LIST
+    BIN_LIST=$(ls -1 bin/)
+    for BIN in $BIN_LIST
     do
-        fix $FILE $NEWNAME
+        LIB_LIST=$(patchelf --print-needed src/remote-viewer | grep lib)
+        for LIB in $LIB_LIST
+        do
+            fix $LIB "bin/$BIN"
+        done
     done
 
     mkdir "libs"
@@ -50,7 +53,7 @@ fixup_all () {
     do
         fixup $FILE
     done
-    
+
     if [ "$ARCH" == "arm64" ]; then
         cp /lib/ld-* libs/
     fi

@@ -24,7 +24,7 @@ fixup () {
 fixup_all () {
     ARCH=$1
     ARCH_DIR="aarch64-linux-gnu";
-    if [ "$ARCH" == "amd64" ]; then
+    if [ "$ARCH" == "x86_64" ]; then
         ARCH_DIR="x86_64-linux-gnu"
     fi
 

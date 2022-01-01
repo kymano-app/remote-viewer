@@ -11,7 +11,7 @@ jobs:
     runs-on: macos-11
     strategy:
       matrix:
-        arch: [amd64]
+        arch: [x86_64]
         platform: [macos]
     steps:
       - name: Checkout
@@ -71,7 +71,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        arch: [amd64, arm64]
+        arch: [x86_64, arm64]
         platform: [linux]
     steps:
       - name: Checkout
